@@ -1,12 +1,15 @@
 package mongoogreniyorum.com.mongolearning.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import mongoogreniyorum.com.mongolearning.model.dto.ListProductResponse;
 import mongoogreniyorum.com.mongolearning.model.dto.ProductAddRequest;
 import mongoogreniyorum.com.mongolearning.model.dto.ProductAddResponse;
 import mongoogreniyorum.com.mongolearning.model.entity.Product;
 import mongoogreniyorum.com.mongolearning.repository.ProductRepository;
 import mongoogreniyorum.com.mongolearning.service.ProductService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +33,15 @@ public class ProductServiceImpl implements ProductService {
                 .price(product.getPrice())
                 .build();
         return productAddResponse;
+    }
+
+    @Override
+    public List<ListProductResponse> getAll(){
+        List<Product> all = productRepository.findAll();
+
+       return
+        all.stream().map(p -> new ListProductResponse(p.getName(),p.getPrice()))
+                .toList();
+
     }
 }
